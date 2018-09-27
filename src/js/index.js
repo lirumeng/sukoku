@@ -1,13 +1,44 @@
-function makeRow(v = 0) {
-    const array = new Array(9);
-    array.fill(v);
-    return array;
+const toolkit = require('./toolkit');
+
+class Grid {
+    constructor(container) {
+        this._$container = container;
+    }
+
+    build() {
+        const matrix = toolkit.makeMatrix();
+
+        const rowGroupClasses = ['row_g_top', 'row_g_middle', 'row_g_bottom'];
+        const cellGroupClasses = ['cell_g_left', 'cell_g_center', 'cell_g_right'];
+
+        const $cells = matrix.map(rowValues => rowValues
+            .map((cellValue, cellIndex) => {
+                return $("<span>")
+                    .addClass(cellGroupClasses[cellIndex % 3])
+                    .text(cellValue);
+            }));
+
+        const $divArray = $cells.map(($spanArray, rowIndex) => {
+            return $('<div>')
+                .addClass('row')
+                .addClass(rowGroupClasses[rowIndex % 3])
+                .append($spanArray);
+        });
+
+        this._$container.append($divArray);
+    }
+
+    layout() {
+        const width = $('span:first', this._$container).width();
+        $('span', this._$container)
+            .height(width)
+            .css({
+                "line-height": `${width}px`,
+                "font-size": width < 32 ? `${width/2}px` : ''
+            });
+    }
 }
 
-function makeMatrix(v = 0) {
-    return Array.from({ length: 9 }, () => makeRow(v));
-}
-
-const a = makeMatrix();
-a[0][1] = 2;
-console.log(a);
+const grid = new Grid($('#container'))
+grid.build();
+grid.layout();
