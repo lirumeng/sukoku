@@ -1,2 +1,4 @@
 # sukoku
-sukoku game
+
+### 启动项目
+> gulp watch
