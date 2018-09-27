@@ -24,6 +24,13 @@ const matrixToolkit = {
             [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
+    },
+
+    /**
+     * TODO 检查指定位置能否填写数字 n
+     */
+    checkFillable() {
+        return true;
     }
 }
 
